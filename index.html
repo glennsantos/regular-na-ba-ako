@@ -1,0 +1,88 @@
+<html>
+  <title>Regular Na Ba Ako?</title>
+  <head>
+
+  </head>
+  <body>
+    
+    <h1>Regular Na Ba Ako?</h1>
+    <p>Kailan yung first day mo? Yung nasa kontrata mo, ha.</p>
+    <input id="petsa" type="date" onchange="regularNaBa()"/>
+    <div id="basahin">
+      <div id="sagot"></div>
+      <p class="batas">Ayon sa <a href="https://blr.dole.gov.ph/2014/12/11/book-vi-post-employment/" target="_blank">Article 281 ng Labor Code</a>, 6 months ka lang dapat probationary employee. Kung pinayagan ka pa rin pumasok makalipas ang 6 months, regular employee ka na. Ayon rin sa <a href="https://lawphil.net/statutes/repacts/ra1949/ra_386_1949.html" target="_blank">Article 13 ng Civil Code</a>, 1 month = 30 days, ergo 6 months = 180 days.</p>
+      <p class="abiso">disclaimer: hindi ito legal advise. marapating lumapit sa isang abogado kung kailangan mo ng legal advise.</p>
+    </div>
+    <style>
+      body {
+        text-align:center;
+        margin:3em;
+        background: #00212b;
+        color:white;  
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:20px;
+      }
+      h1 {
+        font-size: 3em;
+        margin-bottom:10px;
+      }
+      input {
+        font-size: 1em;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 5px 7px;
+      }
+      h2 {
+        font-size:2em;
+        margin-bottom: 5px;
+      }
+      #basahin {
+        display:none;
+        margin-top:4em;
+      }
+      .abiso {
+        color:#665cff;
+        font-style: italic;
+        font-size:90%;
+      }
+      .batas {
+        margin-top:5em;
+        font-size:90%;
+      }
+      a:visited,
+      a {
+        color: #00cadf
+      }
+    </style>
+    <script type="text/javascript">
+
+      var ngayon = new Date();
+      var PETSA = document.getElementById("petsa");
+      PETSA.setAttribute("max", ngayon.toISOString().split("T")[0]);
+
+      function regularNaBa() {
+        var msToDay = 1000*60*60*24;
+        var probiDays = 180;
+        var petsa = new Date(Date.parse(PETSA.value));
+        
+        var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        var regularDate = new Date(+petsa + (probiDays * msToDay));
+        
+        var sagot = "<h2>Hindi ka pa regular. Intay-intay ka lang.</h2>";
+        var regularBlurb = "magiging regular ka sa"
+        if (ngayon > petsa) {
+          var diff = Math.floor((ngayon - petsa) / msToDay);
+          if (diff >= probiDays) {
+            sagot = "<h2>Regular ka na! (libre naman dyan)</h2>";
+            regularBlurb = "na-regular ka nung";
+          } 
+        }
+
+        sagot += "<span class='abiso'>" + regularBlurb + " " + regularDate.toLocaleString("en-US", dateOptions) + "</span>";
+
+        document.getElementById("sagot").innerHTML = sagot;
+        document.getElementById("basahin").style.display = "block";
+
+      }
+    </script>
+  </body>
+</html>
